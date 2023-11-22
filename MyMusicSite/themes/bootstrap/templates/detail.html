@@ -1,0 +1,28 @@
+{% extends './base.html' %}
+{% block title %} {{ post.title }} {% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="http://cdn.bootcss.com/highlight.js/9.12.0/styles/googlecode.min.css">
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+{% endblock %}
+
+{% block main %}
+{% if post %}
+<h3 style="color: rgba(255,11,0,0.24);">{{ post.title }}</h3>
+<br/>
+<div id="song">
+    <span style="color: rgba(255,255,255,0.18);" class="card-link">Category: <a href="{% url 'category_list' post.category_id %}">{{ post.category.name }}</a></span>
+    <span style="color: rgba(255,255,255,0.18);">&nbsp; Created time: {{ post.created_time }}</span>
+</div>
+<br/>
+<ul id="list">
+<img alt="" src="{{post.picture.url}}"/>
+    <br/>
+    <br/>
+<audio id="audio" controls="controls">
+    <source id="audioSource" src="{{ post.audio.url }}">
+</audio>
+</ul>
+{% endif %}
+{% endblock %}

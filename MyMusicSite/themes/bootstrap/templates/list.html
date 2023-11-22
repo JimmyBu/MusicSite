@@ -1,0 +1,41 @@
+{% extends './base.html' %}
+
+
+{% block title %}
+    {% if artist %}
+    Tag: {{ artist.name }}
+    {% elif category %}
+    Category Tag: {{ category.name }}
+    {% else %}
+    Main Page
+    {% endif %}
+{% endblock %}
+
+{% block main %}
+    {% for post in post_list %}
+    <div class="sidebar">
+        <div class="card-body">
+            <h5 style="color: rgba(255,11,0,0.33);" class="card-title">{{ post.title }}</h5>
+            <span style="color: rgba(255,255,255,0.51);" class="card-link">Added by: <a href="{% url 'author' post.owner_id %}">{{post.owner.username}}</a></span>
+            <span style="color: rgba(255,255,255,0.51);" class="card-link">Category: <a href="{% url 'category_list' post.category_id %}">{{ post.category.name }}</a></span>
+            <span style="color: rgba(255,255,255,0.51);" class="card-link">Artist:
+                {% for artist in post.artist.all %}
+                <a href="{% url 'artist_list' artist.id %}">{{ artist.name }}</a>
+                {% endfor %}
+            </span>
+        </div>
+        <p style="color: white;" class="card-text"><a href="{% url 'post_detail' post.id %}">Let's listen</a></p>
+    </div>
+    {% endfor %}
+    <br/>
+    <br/>
+    {% if page_obj %}
+        <p style="color: white;">Page {{ page_obj.number }} of {{ paginator.num_pages }}.</p>
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Previous Page</a>
+    {% endif %}
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next Page</a>
+    {% endif %}
+    {% endif %}
+{% endblock %}
